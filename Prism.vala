@@ -24,7 +24,7 @@ public class Prism : Window {
 	/* GUIs */
     private Entry url_bar;
     private WebView web_view;
-    private Label status_bar;
+    //private Label status_bar;
     private ToolButton back_button;
     private ToolButton forward_button;
     private ToolButton reload_button;
@@ -38,7 +38,7 @@ public class Prism : Window {
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
         headerBar.set_show_close_button (true);
         
-        url_bar.set_width_chars(40);
+        url_bar.set_width_chars(50);
         
         headerBar.pack_end(url_bar);
         
@@ -53,12 +53,11 @@ public class Prism : Window {
         create_widgets();
         connect_signals();
         
-		this.set_titlebar(headerBar);
+		
         this.url_bar.grab_focus();
     }
 
     private void create_widgets() {
-        var toolbar = new Toolbar();
         Gtk.Image img = new Gtk.Image.from_icon_name("go-previous", Gtk.IconSize.SMALL_TOOLBAR);
                   this.back_button = new Gtk.ToolButton(img, null);
                   
@@ -68,11 +67,11 @@ public class Prism : Window {
         img = new Gtk.Image.from_icon_name("view-refresh", Gtk.IconSize.SMALL_TOOLBAR);
                   this.reload_button = new Gtk.ToolButton(img, null);
                   
-        toolbar.add(this.back_button);
-        toolbar.add(this.forward_button);
-        toolbar.add(this.reload_button);
+        headerBar.pack_start(this.back_button);
+        headerBar.pack_start(this.forward_button);
+        headerBar.pack_start(this.reload_button);
         
-        
+        this.set_titlebar(headerBar);
         //this.url_bar = new Entry();
         
         this.web_view = new WebView();
@@ -82,13 +81,13 @@ public class Prism : Window {
         scrolled_window.set_policy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         scrolled_window.add(this.web_view);
         
-        this.status_bar = new Label("Prism.");
-        this.status_bar.xalign = 0;
+        //this.status_bar = new Label("Prism.");
+        //this.status_bar.xalign = 0;
 
         var box = new Box(Gtk.Orientation.VERTICAL, 0);
-        box.pack_start(toolbar, false, true, 0);
+        //box.pack_start(toolbar, false, true, 0);
         box.pack_start(scrolled_window, true, true, 0);
-        box.pack_start(this.status_bar, false, true, 0);
+        //box.pack_start(this.status_bar, false, true, 0);
         add(box);
     }
 
