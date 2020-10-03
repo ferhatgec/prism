@@ -38,6 +38,8 @@ public class Prism : Window {
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
         headerBar.set_show_close_button (true);
         
+        url_bar.set_width_chars(40);
+        
         headerBar.pack_end(url_bar);
         
         set_default_size(900, 600);
