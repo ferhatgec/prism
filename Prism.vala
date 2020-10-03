@@ -28,23 +28,20 @@ public class Prism : Window {
     private ToolButton back_button;
     private ToolButton forward_button;
     private ToolButton reload_button;
+    private ToolButton _prism_button; /* As a home button */
+    
 	private HeaderBar headerBar;
-	private Image _logo;
 
 	public Prism() {
     	headerBar = new HeaderBar();
     	url_bar = new Entry();
     	
-    	_logo = new Image.from_file("/usr/share/pixmaps/prism/prism_32.png");
     	
         headerBar.set_title (Prism.TITLE);
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
         headerBar.set_show_close_button (true);
 		
         url_bar.set_width_chars(65);
-        
-        headerBar.pack_start(_logo);
-        headerBar.pack_end(url_bar);
         
         set_default_size(800, 600);
         
@@ -62,18 +59,24 @@ public class Prism : Window {
     }
 
     private void create_widgets() {
-        Gtk.Image img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_arrow_left.png");
-                  this.back_button = new Gtk.ToolButton(img, null);
+        Gtk.Image img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/prism_32.png");
+		this._prism_button = new Gtk.ToolButton(img, null);
+        
+        img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_arrow_left.png");
+		this.back_button = new Gtk.ToolButton(img, null);
                   
         img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_arrow_right.png");
-                  this.forward_button = new Gtk.ToolButton(img, null);
+		this.forward_button = new Gtk.ToolButton(img, null);
                   
         img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_refresh.png");
-                  this.reload_button = new Gtk.ToolButton(img, null);
+		this.reload_button = new Gtk.ToolButton(img, null);
                   
+		headerBar.pack_start(this._prism_button);
         headerBar.pack_start(this.back_button);
         headerBar.pack_start(this.forward_button);
         headerBar.pack_start(this.reload_button);
+        
+        headerBar.pack_end(url_bar);
         
         this.set_titlebar(headerBar);
         //this.url_bar = new Entry();
@@ -108,7 +111,13 @@ public class Prism : Window {
         this.back_button.clicked.connect(this.web_view.go_back);
         this.forward_button.clicked.connect(this.web_view.go_forward);
         this.reload_button.clicked.connect(this.web_view.reload);
+        
+        this._prism_button.clicked.connect(prism_button);
     }
+
+	private void prism_button() {
+		this.web_view.load_uri(DEFAULT_URL);
+	}
 
     private void update_buttons() {
         this.back_button.sensitive = this.web_view.can_go_back();
