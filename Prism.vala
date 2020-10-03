@@ -62,13 +62,13 @@ public class Prism : Window {
     }
 
     private void create_widgets() {
-        Gtk.Image img = new Gtk.Image.from_icon_name("go-previous", Gtk.IconSize.SMALL_TOOLBAR);
+        Gtk.Image img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_arrow_left.png");
                   this.back_button = new Gtk.ToolButton(img, null);
                   
-        img = new Gtk.Image.from_icon_name("go-next", Gtk.IconSize.SMALL_TOOLBAR);
+        img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_arrow_right.png");
                   this.forward_button = new Gtk.ToolButton(img, null);
                   
-        img = new Gtk.Image.from_icon_name("view-refresh", Gtk.IconSize.SMALL_TOOLBAR);
+        img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_refresh.png");
                   this.reload_button = new Gtk.ToolButton(img, null);
                   
         headerBar.pack_start(this.back_button);
