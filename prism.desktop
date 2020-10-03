@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Fegeya Prism
+Exec=prism
+Icon=/usr/share/pixmaps/prism/prism.png
+Type=Application
+Categories=GTK;GNOME;Network;
+Terminal=false
