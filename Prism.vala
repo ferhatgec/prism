@@ -29,20 +29,24 @@ public class Prism : Window {
     private ToolButton forward_button;
     private ToolButton reload_button;
 	private HeaderBar headerBar;
-	
-    public Prism() {
+	private Image _logo;
+
+	public Prism() {
     	headerBar = new HeaderBar();
     	url_bar = new Entry();
+    	
+    	_logo = new Image.from_file("/usr/share/pixmaps/prism/prism_32.png");
     	
         headerBar.set_title (Prism.TITLE);
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
         headerBar.set_show_close_button (true);
+		
+        url_bar.set_width_chars(65);
         
-        url_bar.set_width_chars(50);
-        
+        headerBar.pack_start(_logo);
         headerBar.pack_end(url_bar);
         
-        set_default_size(900, 600);
+        set_default_size(800, 600);
         
         try {
             this.protocol_regex = new Regex(".*://.*");
@@ -96,7 +100,8 @@ public class Prism : Window {
         this.url_bar.activate.connect(on_activate);
         this.web_view.load_changed.connect((source, evt) => {
             this.url_bar.text = source.get_uri();
-            this.title = "%s - %s".printf(this.url_bar.text, Prism.TITLE);
+            /* TODO: Add title for subtitle */
+            //this.title = "%s - %s".printf(this.url_bar.text, Prism.TITLE);
             update_buttons();
         });
         
