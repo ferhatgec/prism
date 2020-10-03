@@ -28,19 +28,30 @@ public class Prism : Window {
     private ToolButton back_button;
     private ToolButton forward_button;
     private ToolButton reload_button;
-
+	private HeaderBar headerBar;
+	
     public Prism() {
-        this.title = Prism.TITLE;
+    	headerBar = new HeaderBar();
+    	url_bar = new Entry();
+    	
+        headerBar.set_title (Prism.TITLE);
+		headerBar.set_subtitle ("Browsing for everyone, everytime.");
+        headerBar.set_show_close_button (true);
+        
+        headerBar.pack_end(url_bar);
+        
         set_default_size(900, 600);
-
+        
         try {
             this.protocol_regex = new Regex(".*://.*");
         } catch (RegexError e) {
             critical("%s", e.message);
         }
-
+		
         create_widgets();
         connect_signals();
+        
+		this.set_titlebar(headerBar);
         this.url_bar.grab_focus();
     }
 
@@ -59,7 +70,8 @@ public class Prism : Window {
         toolbar.add(this.forward_button);
         toolbar.add(this.reload_button);
         
-        this.url_bar = new Entry();
+        
+        //this.url_bar = new Entry();
         
         this.web_view = new WebView();
         
@@ -73,7 +85,6 @@ public class Prism : Window {
 
         var box = new Box(Gtk.Orientation.VERTICAL, 0);
         box.pack_start(toolbar, false, true, 0);
-        box.pack_start(this.url_bar, false, true, 0);
         box.pack_start(scrolled_window, true, true, 0);
         box.pack_start(this.status_bar, false, true, 0);
         add(box);
