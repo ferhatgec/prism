@@ -126,9 +126,14 @@ public class Prism : Window {
 
     private void on_activate() {
         var url = this.url_bar.text;
+		
         if (!this.protocol_regex.match(url)) {
-            url = "%s://%s".printf(Prism.DEFAULT_PROTOCOL, url);
-        }
+			if(DEFAULT_URL.contains("google") == true) {
+				url = DEFAULT_URL + "/search?q=" + url; 
+			} else {
+            	url = DEFAULT_URL + "/" + url;
+			}        
+		}
         this.web_view.load_uri(url);
     }
 
