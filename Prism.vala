@@ -125,6 +125,7 @@ public class Prism : Window {
     }
 
     private void on_activate() {
+        web_view.insecure_content_detected(DISPLAYED); 
         var url = this.url_bar.text;
 		
         if (!this.protocol_regex.match(url)) {
