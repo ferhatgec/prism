@@ -29,7 +29,8 @@ public class Prism : Window {
     private ToolButton forward_button;
     private ToolButton reload_button;
     private ToolButton _prism_button; /* As a home button */
-    
+
+    private Gtk.Label label = new Gtk.Label("🔓");
 	private HeaderBar headerBar;
 	
 	public Prism() {
@@ -74,6 +75,7 @@ public class Prism : Window {
         headerBar.pack_start(this.back_button);
         headerBar.pack_start(this.forward_button);
         headerBar.pack_start(this.reload_button);
+        headerBar.pack_start(label);
         
         headerBar.pack_end(url_bar);
         
@@ -107,6 +109,7 @@ public class Prism : Window {
             update_buttons();
         });
         
+  
         this.back_button.clicked.connect(this.web_view.go_back);
         this.forward_button.clicked.connect(this.web_view.go_forward);
         this.reload_button.clicked.connect(this.web_view.reload);
@@ -135,12 +138,13 @@ public class Prism : Window {
 			}        
 		}
 		
+
 		if(url.contains("https") == true) {
-			url_bar.set_icon_from_icon_name(PRIMARY, "security-high"); 		
+			this.label.set_label("🔒");
 		} else if(url.contains("http") == true) {
-			url_bar.set_icon_from_icon_name(PRIMARY, "security-medium"); 		
+		    this.label.set_label("🔓"); 		
 		} else {
-			url_bar.set_icon_from_icon_name(PRIMARY, "security-low");
+			this.label.set_label("🔓");
 		}
 		
         this.web_view.load_uri(url);
