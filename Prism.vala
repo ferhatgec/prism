@@ -31,11 +31,10 @@ public class Prism : Window {
     private ToolButton _prism_button; /* As a home button */
     
 	private HeaderBar headerBar;
-
+	
 	public Prism() {
     	headerBar = new HeaderBar();
     	url_bar = new Entry();
-    	
     	
         headerBar.set_title (Prism.TITLE);
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
@@ -135,6 +134,15 @@ public class Prism : Window {
             	url = DEFAULT_URL + "/" + url;
 			}        
 		}
+		
+		if(url.contains("https") == true) {
+			url_bar.set_icon_from_icon_name(PRIMARY, "security-high"); 		
+		} else if(url.contains("http") == true) {
+			url_bar.set_icon_from_icon_name(PRIMARY, "security-medium"); 		
+		} else {
+			url_bar.set_icon_from_icon_name(PRIMARY, "security-low");
+		}
+		
         this.web_view.load_uri(url);
     }
 
