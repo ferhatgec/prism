@@ -4,7 +4,7 @@
 valac --pkg gtk+-3.0 --pkg webkit2gtk-4.0 Prism.vala -o /bin/prism
 
 mkdir /usr/share/pixmaps/prism/
-mkdir mkdir /usr/share/pixmaps/prism/homepage/
+mkdir /usr/share/pixmaps/prism/homepage/
 
 cp resource/*.png /usr/share/pixmaps/prism/
 

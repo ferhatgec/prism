@@ -122,6 +122,15 @@ main {
     padding: 0 5vw 0 5vw;
 }
 
+#logo{ 
+    position: fixed;
+    padding: 20px;
+    width: 64px;
+    height: 64px; 
+    top: 0; 
+    left: 0; 
+}
+ 
 #search-form, #clock-div {
     align-items: center;
     display: flex;
@@ -145,8 +154,8 @@ main {
     box-shadow: 0px 0px 15px 2px #111;
     box-sizing: border-box;
     color: #ddd;
-    font-size: 16px;
-    height: 25px;
+    font-size: 20px;
+    height: 40px;
     padding: 0 25px 0 0;
     text-align: center;
     width: 100%;
