@@ -14,7 +14,7 @@ public class Prism : Window {
     private const string TITLE = "Fegeya Prism";
     
     /* Default URL */
-    private const string DEFAULT_URL = "http://duckduckgo.com";
+    private const string DEFAULT_URL = "file:///usr/share/pixmaps/prism/homepage/index.html";
     
     /* Default protocol */
     private const string DEFAULT_PROTOCOL = "http";
