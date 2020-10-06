@@ -52,6 +52,10 @@ main {
 }
 
 .link-section {
+	position: relative;
+	right: -50px;
+	top: 30px;
+	border-radius: 11px;
     background-color: #353535;
     padding: 10px;
     overflow-y: auto;
@@ -70,6 +74,7 @@ main {
 
 .link-list-item {
     align-items: center;
+    border-radius: 10px;
     display: flex;
     height: 2em;
     justify-content: center;
@@ -181,6 +186,7 @@ main {
 #links-container {
     column-gap: 0vw;
     display: grid;
+    border-radius: 15px;
     grid-column-gap: 0vw;
     grid-row-gap: 5vh;
     grid-template-columns: 1fr;
@@ -194,6 +200,7 @@ main {
 @media only screen and (min-width: 600px) {
 
     #links-container {
+    	border-radius: 15px;
         column-gap: 3vw;
         grid-column-gap: 3vw;
         grid-row-gap: 5vh;
@@ -207,6 +214,7 @@ main {
 @media only screen and (min-width: 768px) {
     
     #links-container {
+    	border-radius: 15px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr;
     }
@@ -220,6 +228,7 @@ main {
     }
 
     #links-container {
+    	border-radius: 15px;
         padding: 2vh 15vw 2vh 15vw;
     }
 
