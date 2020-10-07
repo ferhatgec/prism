@@ -36,10 +36,14 @@ public class Prism : Window {
 	private WebContext webContext;
 	private CookieManager cookieManager;
 
+	private PrismEntryCompletion _completion;
+	
 	public Prism() {
     	headerBar = new HeaderBar();
     	url_bar = new Entry();
     	webContext = new WebContext();
+        _completion = new PrismEntryCompletion();
+    	
     	cookieManager = webContext.get_cookie_manager();
     	cookieManager.set_persistent_storage(GLib.Environment.get_home_dir() + "/.config/prism/cookies.prism", CookiePersistentStorage.TEXT);
     	web_view = new WebView.with_context(webContext);
@@ -50,8 +54,9 @@ public class Prism : Window {
 		
         url_bar.set_width_chars(65);
         url_bar.set_icon_from_icon_name(PRIMARY, "system-search-symbolic");
-        
         set_default_size(800, 600);
+        
+    	_completion.EntryCompletion(url_bar);
         
         try {
             this.protocol_regex = new Regex(".*://.*");
