@@ -133,9 +133,11 @@ public class Prism : Window {
         if (!this.protocol_regex.match(url)) {
 			if(DEFAULT_URL.contains("google") == true) {
 				url = DEFAULT_URL + "/search?q=" + url; 
+			} else if(DEFAULT_URL.contains("duckduckgo") == true) {
+				url = DEFAULT_URL + "/" + url;
 			} else {
-            	url = DEFAULT_URL + "/" + url;
-			}        
+				url = "https://" + url;			
+			}
 		}
 		
 
