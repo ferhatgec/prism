@@ -49,6 +49,7 @@ public class Prism : Window {
         headerBar.set_show_close_button (true);
 		
         url_bar.set_width_chars(65);
+        url_bar.set_icon_from_icon_name(PRIMARY, "system-search-symbolic");
         
         set_default_size(800, 600);
         
