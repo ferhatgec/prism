@@ -33,9 +33,16 @@ public class Prism : Window {
     private Gtk.Label label = new Gtk.Label("🔓");
 	private HeaderBar headerBar;
 	
+	private WebContext webContext;
+	private CookieManager cookieManager;
+
 	public Prism() {
     	headerBar = new HeaderBar();
     	url_bar = new Entry();
+    	webContext = new WebContext();
+    	cookieManager = webContext.get_cookie_manager();
+    	cookieManager.set_persistent_storage(GLib.Environment.get_home_dir() + "/.config/prism/cookies.prism", CookiePersistentStorage.TEXT);
+    	web_view = new WebView.with_context(webContext);
     	
         headerBar.set_title (Prism.TITLE);
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
@@ -70,6 +77,7 @@ public class Prism : Window {
                   
         img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_refresh.png");
 		this.reload_button = new Gtk.ToolButton(img, null);
+                
                   
 		headerBar.pack_start(this._prism_button);
         headerBar.pack_start(this.back_button);
@@ -77,12 +85,11 @@ public class Prism : Window {
         headerBar.pack_start(this.reload_button);
         headerBar.pack_start(label);
         
+        
         headerBar.pack_end(url_bar);
         
         this.set_titlebar(headerBar);
         //this.url_bar = new Entry();
-        
-        this.web_view = new WebView();
         
         var scrolled_window = new ScrolledWindow(null, null);
         
@@ -91,7 +98,7 @@ public class Prism : Window {
         
         //this.status_bar = new Label("Prism.");
         //this.status_bar.xalign = 0;
-
+		
         var box = new Box(Gtk.Orientation.VERTICAL, 0);
         //box.pack_start(toolbar, false, true, 0);
         box.pack_start(scrolled_window, true, true, 0);
