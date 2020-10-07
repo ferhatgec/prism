@@ -136,7 +136,7 @@ public class Prism : Window {
 			} else if(DEFAULT_URL.contains("duckduckgo") == true) {
 				url = DEFAULT_URL + "/" + url;
 			} else {
-				url = "https://" + url;			
+				url = DEFAULT_PROTOCOL + "://" + url;			
 			}
 		}
 		
