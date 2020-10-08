@@ -29,7 +29,6 @@ public class Prism : Window {
     private ToolButton forward_button;
     private ToolButton reload_button;
     private ToolButton incognito_button;
-    private ToolButton public_button;
     private ToolButton _prism_button; /* As a home button */
 
     private Gtk.Label label = new Gtk.Label("🔓");
