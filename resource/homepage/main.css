@@ -39,7 +39,7 @@ body {
 }
 
 main {
-    animation-duration: 1s;
+    animation-duration: 1.5s;
     animation-name: fade-in;
     font-family: Roboto-Light, sans-serif;
     margin: auto;
@@ -152,14 +152,14 @@ main {
     background-color: #353535;
     border-color: #ddd;
     border-style: solid;
-    border-width: 1px;
+    border-width: 0px;
 }
 
 #search-bar {
     box-shadow: 0px 0px 15px 2px #111;
     box-sizing: border-box;
     color: #ffcc99;
-    border-radius: 15px;
+    border-radius: 30px;
     font-size: 20px;
     height: 40px;
     padding: 0 25px 0 0;
