@@ -3,6 +3,12 @@
 
 ![Duckduckling!?](/resource/window.png)
 
+# Features 
+- User-friendly interface.
+- Incognito surfing.
+- Customizable homepage.
+- Fast, secure.
+- And more!
 
 ### Required GTK3, WebKitGTK4 (devel), GCC (or Clang) and Vala.
 
