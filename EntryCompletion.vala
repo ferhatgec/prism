@@ -40,7 +40,11 @@ public class PrismEntryCompletion : Gtk.Window {
         liststore.set(iter, 0, "netflix.com");
 		liststore.append(out iter);
         liststore.set(iter, 0, "tidal.com");
-
+	liststore.append(out iter);
+        liststore.set(iter, 0, "google.com");
+	liststore.append(out iter);
+        liststore.set(iter, 0, "abc.xyz");
+	
         entrycompletion = new Gtk.EntryCompletion();
         entrycompletion.set_model(liststore);
         entrycompletion.set_text_column(0);
