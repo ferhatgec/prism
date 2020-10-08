@@ -28,6 +28,8 @@ public class Prism : Window {
     private ToolButton back_button;
     private ToolButton forward_button;
     private ToolButton reload_button;
+    private ToolButton incognito_button;
+    private ToolButton public_button;
     private ToolButton _prism_button; /* As a home button */
 
     private Gtk.Label label = new Gtk.Label("🔓");
@@ -38,16 +40,18 @@ public class Prism : Window {
 
 	private PrismEntryCompletion _completion;
 	
+	private Gtk.Image incognito_img;
+	
+	private bool check_public = true;
+	
+	private string cookie_data = GLib.Environment.get_home_dir();
+	
 	public Prism() {
     	headerBar = new HeaderBar();
     	url_bar = new Entry();
     	webContext = new WebContext();
         _completion = new PrismEntryCompletion();
-    	
-    	cookieManager = webContext.get_cookie_manager();
-    	cookieManager.set_persistent_storage(GLib.Environment.get_home_dir() + "/.config/prism/cookies.prism", CookiePersistentStorage.TEXT);
-    	web_view = new WebView.with_context(webContext);
-    	
+
         headerBar.set_title (Prism.TITLE);
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
         headerBar.set_show_close_button (true);
@@ -84,7 +88,9 @@ public class Prism : Window {
         img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/white_refresh.png");
 		this.reload_button = new Gtk.ToolButton(img, null);
                 
-                  
+		incognito_img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/private_32.png");
+		this.incognito_button = new Gtk.ToolButton(incognito_img, null);
+		
 		headerBar.pack_start(this._prism_button);
         headerBar.pack_start(this.back_button);
         headerBar.pack_start(this.forward_button);
@@ -92,10 +98,25 @@ public class Prism : Window {
         headerBar.pack_start(label);
         
         
+        headerBar.pack_end(incognito_button);
         headerBar.pack_end(url_bar);
         
         this.set_titlebar(headerBar);
         //this.url_bar = new Entry();
+		
+		if(this.check_public == true) {
+			print("Prism log: Cookies enabled.\n");
+			this.cookie_data = GLib.Environment.get_home_dir() + "/.config/prism/cookies.prism";
+    	} else {
+    		print("Prism log: Cookies closed\n");
+    		this.cookie_data = null;
+    	} 
+    	
+    	cookieManager = webContext.get_cookie_manager();
+    	cookieManager.set_persistent_storage(this.cookie_data, CookiePersistentStorage.TEXT);
+    	web_view = new WebView.with_context(webContext);
+    	
+    	print("Data: " + this.cookie_data);
         
         var scrolled_window = new ScrolledWindow(null, null);
         
@@ -122,7 +143,7 @@ public class Prism : Window {
             update_buttons();
         });
         
-  
+  		this.incognito_button.clicked.connect(check_incognito);
         this.back_button.clicked.connect(this.web_view.go_back);
         this.forward_button.clicked.connect(this.web_view.go_forward);
         this.reload_button.clicked.connect(this.web_view.reload);
@@ -130,8 +151,40 @@ public class Prism : Window {
         this._prism_button.clicked.connect(prism_button);
     }
 
+	
+
 	private void prism_button() {
 		this.web_view.load_uri(DEFAULT_URL);
+	}
+
+	private void check_incognito() {
+		if(this.check_public == true) {
+			incognito_on();
+		} else if(this.check_public == false) {
+			public_on();
+		}
+	}
+
+	private void incognito_on() {
+		print("\nprivate");
+		this.cookie_data = null;
+		this.web_view.load_uri(DEFAULT_URL);
+		this.incognito_img.set_from_file("/usr/share/pixmaps/prism/public_32.png");
+		this.incognito_button.set_icon_widget(incognito_img);
+		this.check_public = false;
+		print(cookie_data);
+		this.cookieManager.set_persistent_storage("", CookiePersistentStorage.TEXT);
+	}
+
+	private void public_on() {
+		print("\npublic");
+		this.cookie_data = GLib.Environment.get_home_dir() + "/.config/prism/cookies.prism";
+		this.web_view.load_uri(DEFAULT_URL);
+		this.incognito_img.set_from_file("/usr/share/pixmaps/prism/private_32.png");
+		this.incognito_button.set_icon_widget(incognito_img);
+		this.check_public = true;
+		print(cookie_data);
+		this.cookieManager.set_persistent_storage(cookie_data, CookiePersistentStorage.TEXT);
 	}
 
     private void update_buttons() {
