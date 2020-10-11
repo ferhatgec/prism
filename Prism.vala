@@ -145,7 +145,9 @@ public class Prism : Window {
 				this.url_bar.text = source.get_uri(); 
 			}
 			
-			if(this.url_bar.text.contains("https") == true) {
+			if(this.url_bar.text == "home:prism") {
+				this.label.set_label("🏠");
+			} else if(this.url_bar.text.contains("https") == true) {
 				this.label.set_label("🔒");
 			} else if(this.url_bar.text.contains("http") == true) {
 		    	this.label.set_label("🔓"); 		
