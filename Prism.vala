@@ -138,9 +138,14 @@ public class Prism : Window {
     private void connect_signals() {
         this.destroy.connect(Gtk.main_quit);
         this.url_bar.activate.connect(on_activate);
-        this.web_view.load_changed.connect((source, evt) => {
-            //this.url_bar.text = source.get_uri();
-            /* TODO: Add title for subtitle */
+        this.web_view.load_changed.connect((source, evt) => { 
+			if(source.get_uri() == DEFAULT_URL) {
+				this.url_bar.text = "home:prism";	
+			} else {
+				this.url_bar.text = source.get_uri(); 
+			}
+			
+		    /* TODO: Add title for subtitle */
             //this.title = "%s - %s".printf(this.url_bar.text, Prism.TITLE);
             update_buttons();
         });
@@ -215,17 +220,9 @@ public class Prism : Window {
 					url = DEFAULT_PROTOCOL + "://" + url;			
 				}
 			}
-		}
 
-		if(url.contains("https") == true) {
-			this.label.set_label("🔒");
-		} else if(url.contains("http") == true) {
-		    this.label.set_label("🔓"); 		
-		} else {
-			this.label.set_label("🔓");
-		}
-		
-        this.web_view.load_uri(url);
+
+    	this.web_view.load_uri(url);}
     }
 
     public void start() {
