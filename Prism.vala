@@ -29,6 +29,7 @@ public class Prism : Window {
     private ToolButton forward_button;
     private ToolButton reload_button;
     private ToolButton incognito_button;
+    private ToolButton secure_button;
     private ToolButton _prism_button; /* As a home button */
 
     private Gtk.Label label = new Gtk.Label("🔓");
@@ -90,11 +91,13 @@ public class Prism : Window {
 		incognito_img = new Gtk.Image.from_file("/usr/share/pixmaps/prism/private_32.png");
 		this.incognito_button = new Gtk.ToolButton(incognito_img, null);
 		
+		this.secure_button = new Gtk.ToolButton(label, null);
+		
 		headerBar.pack_start(this._prism_button);
         headerBar.pack_start(this.back_button);
         headerBar.pack_start(this.forward_button);
         headerBar.pack_start(this.reload_button);
-        headerBar.pack_start(label);
+        headerBar.pack_start(secure_button);
         
         
         headerBar.pack_end(incognito_button);
@@ -136,7 +139,7 @@ public class Prism : Window {
         this.destroy.connect(Gtk.main_quit);
         this.url_bar.activate.connect(on_activate);
         this.web_view.load_changed.connect((source, evt) => {
-            this.url_bar.text = source.get_uri();
+            //this.url_bar.text = source.get_uri();
             /* TODO: Add title for subtitle */
             //this.title = "%s - %s".printf(this.url_bar.text, Prism.TITLE);
             update_buttons();
@@ -195,16 +198,24 @@ public class Prism : Window {
         web_view.insecure_content_detected(DISPLAYED); 
         var url = this.url_bar.text;
 		
-        if (!this.protocol_regex.match(url)) {
-			if(DEFAULT_URL.contains("google") == true) {
-				url = DEFAULT_URL + "/search?q=" + url; 
-			} else if(DEFAULT_URL.contains("duckduckgo") == true) {
-				url = DEFAULT_URL + "/" + url;
-			} else {
-				url = DEFAULT_PROTOCOL + "://" + url;			
-			}
+		if(url == DEFAULT_URL) {
+			this.url_bar.text = "home:prism";
+			url = this.url_bar.text;
 		}
 		
+		if(url.contains("home:prism") == true) {
+			url = DEFAULT_URL;
+		} else {
+        	if (!this.protocol_regex.match(url)) {
+				if(DEFAULT_URL.contains("google") == true) {
+					url = DEFAULT_URL + "/search?q=" + url; 
+				} else if(DEFAULT_URL.contains("duckduckgo") == true) {
+					url = DEFAULT_URL + "/" + url;
+				} else {
+					url = DEFAULT_PROTOCOL + "://" + url;			
+				}
+			}
+		}
 
 		if(url.contains("https") == true) {
 			this.label.set_label("🔒");
@@ -220,6 +231,7 @@ public class Prism : Window {
     public void start() {
         show_all();
         this.web_view.load_uri(DEFAULT_URL);
+        this.url_bar.text = "home:prism";
     }
 
     public static int main(string[] args) {

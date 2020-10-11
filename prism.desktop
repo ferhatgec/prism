@@ -3,5 +3,5 @@ Name=Fegeya Prism
 Exec=prism
 Icon=/usr/share/pixmaps/prism/prism.png
 Type=Application
-Categories=GTK;GNOME;Network;
+Categories=GTK;GNOME;Network;Web;
 Terminal=false
