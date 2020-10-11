@@ -39,7 +39,7 @@ body {
 }
 
 main {
-    animation-duration: 1.5s;
+    animation-duration: 1.3s;
     animation-name: fade-in;
     font-family: Roboto-Light, sans-serif;
     margin: auto;
@@ -63,6 +63,9 @@ main {
 }
 
 .link-section-title {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     font-size: 20px;
     margin: 0;
     font-weight: normal;
