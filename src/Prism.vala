@@ -213,7 +213,9 @@ public class Prism : Window {
         web_view.insecure_content_detected(DISPLAYED); 
         var url = this.url_bar.text;
 		
-		_completion.AddHistoryItem(url); 
+		if(check_public == true) {
+			_completion.AddHistoryItem(url); 
+		}
 		
 		if(url == DEFAULT_URL) {
 			this.url_bar.text = "home:prism";
