@@ -6,6 +6,8 @@
 # Features 
 - User-friendly interface.
 - Incognito surfing.
+- Input completer.
+- History (%25)
 - Customizable homepage.
 - Fast, secure.
 - And more!
