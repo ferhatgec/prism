@@ -6,49 +6,50 @@
 # */
 
 public class PrismEntryCompletion : Gtk.Window {
+	private FileOperations operations = new FileOperations();
 	private Gtk.ListStore liststore;
 	private Gtk.EntryCompletion entrycompletion;
+	private string line;
+	
+	private string default_items = "github.com\nfacebook.com\ndiscord.com\nduckduckgo.com\nyoutube.com\nnetflix.com\ngoogle.com\nreddit.com\n";
 	
     public void EntryCompletion(Gtk.Entry entry) {
         liststore = new Gtk.ListStore(1, typeof(string));
-
+	
 		/* Default items */
         Gtk.TreeIter iter;
-        liststore.append(out iter);
-        liststore.set(iter, 0, "github.com");
-        liststore.append(out iter);
-        liststore.set(iter, 0, "stackoverflow.com");
-        liststore.append(out iter);
-        liststore.set(iter, 0, "facebook.com");
-        liststore.append(out iter);
-        liststore.set(iter, 0, "discord.com");
-		liststore.append(out iter);
-        liststore.set(iter, 0, "gitlab.com");
-		liststore.append(out iter);
-		liststore.set(iter, 0, "gnu.org");
-        liststore.append(out iter);
-		liststore.set(iter, 0, "kernel.org");
-        liststore.append(out iter);
-        liststore.set(iter, 0, "duckduckgo.com");
-		liststore.append(out iter);
-        liststore.set(iter, 0, "discord.com");
-		liststore.append(out iter);
-        liststore.set(iter, 0, "youtube.com");
-		liststore.append(out iter);
-        liststore.set(iter, 0, "bitbucket.com");
-		liststore.append(out iter);
-        liststore.set(iter, 0, "netflix.com");
-		liststore.append(out iter);
-        liststore.set(iter, 0, "tidal.com");
-	liststore.append(out iter);
-        liststore.set(iter, 0, "google.com");
-	liststore.append(out iter);
-        liststore.set(iter, 0, "abc.xyz");
-	
+        if(operations.IsExist(GLib.Environment.get_home_dir() + "/.config/prism/history.prism") != true) {
+        	operations.CreateFile(GLib.Environment.get_home_dir() + "/.config/prism/history.prism", default_items);
+        }
+        
+        File file = File.new_for_path (GLib.Environment.get_home_dir() + "/.config/prism/history.prism");
+
+		try {
+			FileInputStream @is = file.read ();
+			DataInputStream dis = new DataInputStream (@is);
+			
+			while ((line = dis.read_line ()) != null) {
+				liststore.append(out iter);
+				liststore.set(iter, 0, line); 
+			}
+		} catch (Error e) {
+			print ("Error: %s\n", e.message);
+		}
+        
         entrycompletion = new Gtk.EntryCompletion();
         entrycompletion.set_model(liststore);
         entrycompletion.set_text_column(0);
         entrycompletion.set_popup_completion(true);
         entry.set_completion(entrycompletion);
+    }
+    
+    public void AddHistoryItem(string history) {
+    	print(history + "\n");
+    	if(operations.IsExist(GLib.Environment.get_home_dir() + "/.config/prism/history.prism") == true) {
+        	operations.AppendText(GLib.Environment.get_home_dir() + "/.config/prism/history.prism", history + "\n");
+        	print("Nicely done!");
+        } else {
+        	operations.CreateFile(GLib.Environment.get_home_dir() + "/.config/prism/history.prism", default_items);
+        }
     }
 }

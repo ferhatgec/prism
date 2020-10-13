@@ -55,23 +55,13 @@ public class FileOperations {
 		}
 	}
 	
-	public bool AppendText(string _directory, string text) {
-		try {
-			var file = File.new_for_path (_directory);
+	public void AppendText(string _directory, string text) {
+		if(text != "\n") {
+			FileStream file = FileStream.open(_directory, "a");
+			assert (file != null);
 
-        	var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-
-			uint8[] data = text.data;
-        	long written = 0;
-        	while (written < data.length) { 
-            	written += dos.write (data[written:data.length]);
-        	}
-        	
-        	return true;
-    	} catch (Error e) {
-        	stderr.printf ("%s\n", e.message);
+			file.puts (text);
+			file.putc ('\n');
     	}
-    	
-    	return false;
     }
 }	
