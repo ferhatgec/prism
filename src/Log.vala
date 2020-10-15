@@ -6,6 +6,12 @@
 # */
 
 public class PrismLog {
+	private PrismDefinitions _def;
+	
+	public PrismLog() {
+		_def = new PrismDefinitions();
+	}
+	
 	public string GetTime() {
 		int64 timestamp = 1234151912;
     	var time = new DateTime.from_unix_utc (timestamp);
@@ -20,12 +26,20 @@ public class PrismLog {
 	}
 	
 	public void Log(string item) {
-		print("Prism-Log: " + GetTime() + " : ");
+		_def.LIGHT_YELLOW_COLOR();
+		print("Prism-Log: ");
+		
+		_def.LIGHT_WHITE_COLOR();
+		print(GetTime() + " : ");
 		print(item + "\n");
 	}
 
 	public void ErrorLog(string item, string code) {
-		print("Prism-Log: @Error: " + GetTime() + " : ");
+		_def.RED_COLOR();
+		print("Prism-Log: @Error: ");
+		
+		_def.LIGHT_WHITE_COLOR();
+		print(GetTime() + " : ");
 		print(item + " : Code: " + code + "\n");
 	}
 }
