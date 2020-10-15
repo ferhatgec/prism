@@ -39,6 +39,7 @@ public class Prism : Window {
 	private CookieManager cookieManager;
 
 	private PrismEntryCompletion _completion;
+	private PrismLog _log;
 	
 	private Gtk.Image incognito_img;
 	
@@ -51,7 +52,8 @@ public class Prism : Window {
     	url_bar = new Entry();
     	webContext = new WebContext();
         _completion = new PrismEntryCompletion();
-
+		_log = new PrismLog();
+		
         headerBar.set_title (Prism.TITLE);
 		headerBar.set_subtitle ("Browsing for everyone, everytime.");
         headerBar.set_show_close_button (true);
@@ -107,10 +109,10 @@ public class Prism : Window {
         //this.url_bar = new Entry();
 		
 		if(this.check_public == true) {
-			print("Prism log: Cookies enabled.\n");
+			_log.Log("Cookies enabled.");
 			this.cookie_data = GLib.Environment.get_home_dir() + "/.config/prism/cookies.prism";
     	} else {
-    		print("Prism log: Cookies closed\n");
+    		_log.Log("Cookies closed.");
     		this.cookie_data = null;
     	} 
     	
@@ -118,8 +120,6 @@ public class Prism : Window {
     	cookieManager.set_persistent_storage(this.cookie_data, CookiePersistentStorage.TEXT);
     	web_view = new WebView.with_context(webContext);
     	
-    	print("Data: " + this.cookie_data);
-        
         var scrolled_window = new ScrolledWindow(null, null);
         
         scrolled_window.set_policy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
@@ -183,24 +183,24 @@ public class Prism : Window {
 	}
 
 	private void incognito_on() {
-		print("\nprivate");
+		_log.Log("Private mode enabled.");
 		this.cookie_data = null;
 		this.web_view.load_uri(DEFAULT_URL);
 		this.incognito_img.set_from_file("/usr/share/pixmaps/prism/public_32.png");
 		this.incognito_button.set_icon_widget(incognito_img);
 		this.check_public = false;
-		print(cookie_data);
+		
 		this.cookieManager.set_persistent_storage("", CookiePersistentStorage.TEXT);
 	}
 
 	private void public_on() {
-		print("\npublic");
+		_log.Log("Public mode enabled.");
 		this.cookie_data = GLib.Environment.get_home_dir() + "/.config/prism/cookies.prism";
 		this.web_view.load_uri(DEFAULT_URL);
 		this.incognito_img.set_from_file("/usr/share/pixmaps/prism/private_32.png");
 		this.incognito_button.set_icon_widget(incognito_img);
 		this.check_public = true;
-		print(cookie_data);
+		
 		this.cookieManager.set_persistent_storage(cookie_data, CookiePersistentStorage.TEXT);
 	}
 
