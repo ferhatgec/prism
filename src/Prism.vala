@@ -60,6 +60,8 @@ public class Prism : Window {
 		
         url_bar.set_width_chars(65);
         url_bar.set_icon_from_icon_name(PRIMARY, "system-search-symbolic");
+        url_bar.set_icon_from_icon_name (SECONDARY, "edit-clear");
+        
         set_default_size(800, 600);
         
     	_completion.EntryCompletion(url_bar);
@@ -138,6 +140,15 @@ public class Prism : Window {
     private void connect_signals() {
         this.destroy.connect(Gtk.main_quit);
         this.url_bar.activate.connect(on_activate);
+        
+        this.url_bar.icon_press.connect((pos, event) => {
+      		if (pos == SECONDARY) {
+        		url_bar.set_text("");
+      		} else if(pos == PRIMARY) {
+      			on_activate();
+      		}
+    	});
+    
         this.web_view.load_changed.connect((source, evt) => { 
 			if(source.get_uri() == DEFAULT_URL) {
 				this.url_bar.text = "home:prism";	
