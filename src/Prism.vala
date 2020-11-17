@@ -222,40 +222,45 @@ public class Prism : Window {
         this.forward_button.sensitive = this.web_view.can_go_forward();
     }
 
+	private string parse_url(owned string _url) {
+		if(check_public == true) {
+			_completion.AddHistoryItem(_url); 
+		}
+		
+		if(_url == DEFAULT_URL) {
+			this.url_bar.text = "home:prism";
+			_url = this.url_bar.text;
+		}
+		
+		if(_url.contains("home:prism") == true) {
+			_url = DEFAULT_URL;
+		} else {
+        	if (!this.protocol_regex.match(_url)) {
+				if(DEFAULT_URL.contains("google") == true) {
+					_url = DEFAULT_URL + "/search?q=" + _url; 
+				} else if(DEFAULT_URL.contains("duckduckgo") == true) {
+					_url = DEFAULT_URL + "/" + _url;
+				} else {
+					_url = DEFAULT_PROTOCOL + "://" + _url;			
+				}
+			}
+    	}
+
+		return _url;
+	}
+
     private void on_activate() {
         web_view.insecure_content_detected(DISPLAYED); 
         var url = this.url_bar.text;
-		
-		if(check_public == true) {
-			_completion.AddHistoryItem(url); 
-		}
-		
-		if(url == DEFAULT_URL) {
-			this.url_bar.text = "home:prism";
-			url = this.url_bar.text;
-		}
-		
-		if(url.contains("home:prism") == true) {
-			url = DEFAULT_URL;
-		} else {
-        	if (!this.protocol_regex.match(url)) {
-				if(DEFAULT_URL.contains("google") == true) {
-					url = DEFAULT_URL + "/search?q=" + url; 
-				} else if(DEFAULT_URL.contains("duckduckgo") == true) {
-					url = DEFAULT_URL + "/" + url;
-				} else {
-					url = DEFAULT_PROTOCOL + "://" + url;			
-				}
-			}
-    	this.web_view.load_uri(url);
-    	}
+
+		this.web_view.load_uri(parse_url(url));
     }
 
     public void start() {
         show_all();
 		
 		if(argument != null) {
-			this.web_view.load_uri(DEFAULT_PROTOCOL + "://" + argument);
+			this.web_view.load_uri(parse_url(argument));
 			this.url_bar.text = argument;
 		} else {
         	this.web_view.load_uri(DEFAULT_URL);
