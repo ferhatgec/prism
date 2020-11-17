@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Fegeya Prism
-Exec=prism
+Exec=prism %U
 Icon=/usr/share/pixmaps/prism/prism.png
 Type=Application
 Keywords=web;browser;internet;

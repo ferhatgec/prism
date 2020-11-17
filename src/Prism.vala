@@ -47,6 +47,8 @@ public class Prism : Window {
 	
 	private string cookie_data = GLib.Environment.get_home_dir();
 	
+	public static string argument = null;
+ 
 	public Prism() {
     	headerBar = new HeaderBar();
     	url_bar = new Entry();
@@ -54,13 +56,13 @@ public class Prism : Window {
         _completion = new PrismEntryCompletion();
 		_log = new PrismLog();
 		
-        headerBar.set_title (Prism.TITLE);
-		headerBar.set_subtitle ("Browsing for everyone, everytime.");
-        headerBar.set_show_close_button (true);
+        headerBar.set_title(Prism.TITLE);
+		headerBar.set_subtitle("Browsing for everyone, everytime.");
+        headerBar.set_show_close_button(true);
 		
         url_bar.set_width_chars(65);
         url_bar.set_icon_from_icon_name(PRIMARY, "system-search-symbolic");
-        url_bar.set_icon_from_icon_name (SECONDARY, "edit-clear");
+        url_bar.set_icon_from_icon_name(SECONDARY, "edit-clear");
         
         set_default_size(800, 600);
         
@@ -71,7 +73,7 @@ public class Prism : Window {
         } catch (RegexError e) {
             critical("%s", e.message);
         }
-		
+
         create_widgets();
         connect_signals();
         
@@ -251,12 +253,20 @@ public class Prism : Window {
 
     public void start() {
         show_all();
-        this.web_view.load_uri(DEFAULT_URL);
-        this.url_bar.text = "home:prism";
-    }
+		
+		if(argument != null) {
+			this.web_view.load_uri(DEFAULT_PROTOCOL + "://" + argument);
+			this.url_bar.text = argument;
+		} else {
+        	this.web_view.load_uri(DEFAULT_URL);
+        	this.url_bar.text = "home:prism";
+		}    
+	}
 
     public static int main(string[] args) {
         Gtk.init(ref args);
+
+		if(args[1] != null) { argument = args[1]; }
 
         var browser = new Prism();
         browser.start();
