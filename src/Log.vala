@@ -1,6 +1,6 @@
 /* MIT License
 #
-# Copyright (c) 2020 Ferhat Geçdoğan All Rights Reserved.
+# Copyright (c) 2020-2021 Ferhat Geçdoğan All Rights Reserved.
 # Distributed under the terms of the MIT License.
 #
 # */
@@ -14,11 +14,11 @@ public class PrismLog {
 	
 	public string GetTime() {
 		int64 timestamp = 1234151912;
-    	var time = new DateTime.from_unix_utc (timestamp);
+    	var time = new DateTime.from_unix_utc(timestamp);
     
-    	assert (time.to_unix () == timestamp);
+    	assert (time.to_unix() == timestamp);
 
-    	time = new DateTime.utc (2010, 10, 22, 9, 22, 0);
+    	time = new DateTime.utc(2010, 10, 22, 9, 22, 0);
 
     	var now = new DateTime.now_local();
     	
